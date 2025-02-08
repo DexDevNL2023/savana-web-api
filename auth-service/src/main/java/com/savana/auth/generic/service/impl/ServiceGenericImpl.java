@@ -228,18 +228,4 @@ public abstract class ServiceGenericImpl<D extends BaseRequest, R extends BaseRe
         ids.forEach(id -> delete(isAdmin, id));
         logger.debug("All specified entities deleted");
     }
-
-    @Override
-    @Transactional
-    @LogExecution
-    public boolean fieldValueExists(Object value, String fieldName) throws UnsupportedOperationException {
-        if (value == null) {
-            logger.debug("Field value is null, returning false");
-            return false;
-        }
-        logger.debug("Checking if field '{}' exists with value: {}", fieldName, value);
-        boolean exists = repository.existsByFieldValue(value, fieldName);
-        logger.debug("Field '{}' exists: {}", fieldName, exists);
-        return exists;
-    }
 }

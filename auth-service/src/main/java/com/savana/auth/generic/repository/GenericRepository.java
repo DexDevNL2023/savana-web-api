@@ -9,6 +9,5 @@ import org.springframework.data.repository.NoRepositoryBean;
 
 @NoRepositoryBean
 public interface GenericRepository<D extends BaseRequest, E extends BaseEntity<E, D>> extends MongoRepository<E, Long> {
-    boolean existsByFieldValue(Object value, String fieldName);
     Page<E> findAllByIsDeleted(boolean isDeleted, Pageable pageable);
 }

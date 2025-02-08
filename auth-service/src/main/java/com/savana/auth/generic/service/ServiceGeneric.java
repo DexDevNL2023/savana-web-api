@@ -4,11 +4,10 @@ import com.savana.auth.generic.dto.reponse.BaseResponse;
 import com.savana.auth.generic.dto.reponse.PagedResponse;
 import com.savana.auth.generic.dto.request.BaseRequest;
 import com.savana.auth.generic.entity.audit.BaseEntity;
-import com.savana.auth.generic.validators.unique.FieldValueExists;
 
 import java.util.List;
 
-public interface ServiceGeneric<D extends BaseRequest, R extends BaseResponse, E extends BaseEntity<E, D>> extends FieldValueExists {
+public interface ServiceGeneric<D extends BaseRequest, R extends BaseResponse, E extends BaseEntity<E, D>> {
     R save(D dto);
 
     E saveDefault(E entity);
