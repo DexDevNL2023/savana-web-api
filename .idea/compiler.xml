@@ -2,13 +2,14 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="eureka-service" />
-        <module name="config-service" />
         <module name="gateway-service" />
+        <module name="config-service" />
       </profile>
       <profile name="Annotation profile for savana-project" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />

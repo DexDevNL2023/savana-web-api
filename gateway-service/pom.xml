@@ -31,12 +31,6 @@
 		<spring-cloud.version>2024.0.0</spring-cloud.version>
 	</properties>
 	<dependencies>
-		<!-- Dépendance Spring Boot Starter Web pour l'API Gateway -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
-
 		<!-- Dépendance Spring Cloud Gateway -->
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
