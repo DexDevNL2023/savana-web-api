@@ -15,7 +15,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 
 @Data
-@Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Document(collection = "users")
