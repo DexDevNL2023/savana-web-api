@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 @ResponseBody
 @RestController
 @CrossOrigin("*")
-@RequestMapping("/api/accounts")
+@RequestMapping("/api/comptes")
 @Tag(name = "Comptes", description = "API de gestion des comptes")
 public class AccountControllerimpl extends ControllerGenericImpl<AccountRequest, AccountResponse, Account> implements AccountController {
 
