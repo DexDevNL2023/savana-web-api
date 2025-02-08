@@ -1,0 +1,142 @@
+version: '3.8'
+
+services:
+  # Configuration Server for MongoDB Sharding
+  mongo-config:
+    image: mongo:6.0
+    container_name: mongo-config
+    command: mongod --configsvr --replSet cfgReplicaSet --port 27017
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-config-data:/data/db
+    networks:
+      - banking-network
+
+  # Shard Server 1
+  mongo-shard-1:
+    image: mongo:6.0
+    container_name: mongo-shard-1
+    command: mongod --shardsvr --replSet shardReplicaSet --port 27018
+    ports:
+      - "27018:27018"
+    volumes:
+      - mongo-shard-1-data:/data/db
+    networks:
+      - banking-network
+
+  # Shard Server 2 (Optional)
+  mongo-shard-2:
+    image: mongo:6.0
+    container_name: mongo-shard-2
+    command: mongod --shardsvr --replSet shardReplicaSet --port 27019
+    ports:
+      - "27019:27019"
+    volumes:
+      - mongo-shard-2-data:/data/db
+    networks:
+      - banking-network
+
+  # MongoDB Router (Mongos)
+  mongo-router:
+    image: mongo:6.0
+    container_name: mongo-router
+    command: mongos --configdb cfgReplicaSet/mongo-config:27017 --bind_ip_all
+    ports:
+      - "27020:27020"
+    depends_on:
+      - mongo-config
+    networks:
+      - banking-network
+
+  # Eureka Server (Service Discovery)
+  eureka-service:
+    build:
+      context: ./eureka-service
+      dockerfile: Dockerfile
+    container_name: eureka-service
+    ports:
+      - "8761:8761"
+    networks:
+      - banking-network
+
+  # Config Server (Centralized Configurations)
+  config-service:
+    build:
+      context: ./config-service
+      dockerfile: Dockerfile
+    container_name: config-service
+    environment:
+      - SPRING_CLOUD_CONFIG_SERVER_GIT_URI=https://github.com/monrepo/configurations.git
+    ports:
+      - "8888:8888"
+    networks:
+      - banking-network
+    depends_on:
+      - eureka-service
+
+  # API Gateway (Spring Cloud Gateway)
+  api-gateway:
+    build:
+      context: ./api-gateway
+      dockerfile: Dockerfile
+    container_name: api-gateway
+    environment:
+      - SPRING_APPLICATION_NAME=api-gateway
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-service:8761/eureka/
+    ports:
+      - "8080:8080"
+    networks:
+      - banking-network
+    depends_on:
+      - eureka-service
+      - config-service
+
+  # Auth Microservice
+  auth-service:
+    build:
+      context: ./auth-service
+      dockerfile: Dockerfile
+    container_name: auth-service
+    environment:
+      - SPRING_APPLICATION_NAME=auth-service
+      - SPRING_CLOUD_CONFIG_URI=http://config-service:8888
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-service:8761/eureka/
+      - SPRING_DATA_MONGODB_URI=mongodb://mongo-router:27020/auth-db
+    ports:
+      - "8081:8081"
+    depends_on:
+      - mongo-router
+      - config-service
+      - eureka-service
+    networks:
+      - banking-network
+
+  # Accounting Microservice
+  accounting-service:
+    build:
+      context: ./accounting-service
+      dockerfile: Dockerfile
+    container_name: accounting-service
+    environment:
+      - SPRING_APPLICATION_NAME=accounting-service
+      - SPRING_CLOUD_CONFIG_URI=http://config-service:8888
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://eureka-service:8761/eureka/
+      - SPRING_DATA_MONGODB_URI=mongodb://mongo-router:27020/accounting-db
+    ports:
+      - "8082:8082"
+    depends_on:
+      - mongo-router
+      - config-service
+      - eureka-service
+    networks:
+      - banking-network
+
+volumes:
+  mongo-config-data:
+  mongo-shard-1-data:
+  mongo-shard-2-data:
+
+networks:
+  banking-network:
+    driver: bridge
