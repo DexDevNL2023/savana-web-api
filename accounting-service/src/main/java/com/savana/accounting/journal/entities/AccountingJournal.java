@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
-@Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Document(collection = "accounting_journal")

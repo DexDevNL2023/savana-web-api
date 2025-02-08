@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-@Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Document(collection = "accounts")
