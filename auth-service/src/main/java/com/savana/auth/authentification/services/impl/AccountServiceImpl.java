@@ -6,7 +6,7 @@ import com.savana.auth.authentification.dto.request.*;
 import com.savana.auth.authentification.entities.*;
 import com.savana.auth.authentification.mapper.AccountMapper;
 import com.savana.auth.authentification.repositories.AccountRepository;
-import com.savana.auth.authentification.security.jwt.JwtUtils;
+import com.savana.auth.authentification.security.JwtUtils;
 import com.savana.auth.authentification.services.AccountService;
 import com.savana.auth.generic.exceptions.RessourceNotFoundException;
 import com.savana.auth.generic.logging.LogExecution;
