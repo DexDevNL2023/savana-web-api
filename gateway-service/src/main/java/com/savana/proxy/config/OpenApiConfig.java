@@ -31,8 +31,8 @@ public class OpenApiConfig {
     @Bean
     public GroupedOpenApi accountingApi() {
         return GroupedOpenApi.builder()
-                .group("account-service")
-                .pathsToMatch("/api/accounts/**")
+                .group("account-service-users")
+                .pathsToMatch("/api/profile/users/**")
                 .build();
     }
 
@@ -48,15 +48,15 @@ public class OpenApiConfig {
     public GroupedOpenApi insuranceApi() {
         return GroupedOpenApi.builder()
                 .group("accounting-service-comptes")
-                .pathsToMatch("/api/comptes/**")
+                .pathsToMatch("/api/accounting/comptes/**")
                 .build();
     }
 
     @Bean
     public GroupedOpenApi claimApi() {
         return GroupedOpenApi.builder()
-                .group("auth-service")
-                .pathsToMatch("/api/authentifications/**")
+                .group("account-service-auth")
+                .pathsToMatch("/api/profile/auth/**")
                 .build();
     }
 }

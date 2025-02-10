@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 @ResponseBody
 @RestController
 @CrossOrigin("*")
-@RequestMapping("/api/authentifications")
+@RequestMapping("/api/profile/auth")
 @Tag(name = "Authentifications", description = "API de gestion des authentifications")
 public class AuthentificationController {
 

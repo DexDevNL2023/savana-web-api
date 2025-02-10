@@ -1,4 +1,4 @@
-package com.savana.accounting.account.dto.request;
+package com.savana.accounting.compte.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.savana.accounting.generic.dto.request.BaseRequest;
@@ -15,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class AccountRequest extends BaseRequest {
+public class CompteRequest extends BaseRequest {
 
     @NotBlank(message = "Le numéro de compte est obligatoire")
     private String accountNumber;

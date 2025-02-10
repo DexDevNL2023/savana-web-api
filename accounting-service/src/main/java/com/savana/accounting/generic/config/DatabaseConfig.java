@@ -4,6 +4,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 @Configuration
-@EnableMongoRepositories(basePackages = {"com.savana.accounting.account.repositories", "com.savana.accounting.journal.repositories"})
+@EnableMongoRepositories(basePackages = {"com.savana.accounting.compte.repositories", "com.savana.accounting.journal.repositories"})
 public class DatabaseConfig {
 }

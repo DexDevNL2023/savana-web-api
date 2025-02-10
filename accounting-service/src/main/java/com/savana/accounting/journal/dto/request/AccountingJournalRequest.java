@@ -1,7 +1,6 @@
 package com.savana.accounting.journal.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.savana.accounting.account.entities.Account;
 import com.savana.accounting.generic.dto.request.BaseRequest;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;

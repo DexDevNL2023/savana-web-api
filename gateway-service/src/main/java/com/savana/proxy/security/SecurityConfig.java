@@ -75,7 +75,7 @@ public class SecurityConfig {
             "/actuator/**",
 
             // Routes publiques
-            "/api/authentifications/**",
+            "/api/profile/auth/**",
             "/api/files/**", // Autoriser l'accès aux fichiers dans ce dossier
 
             // Téléchargement de rapports

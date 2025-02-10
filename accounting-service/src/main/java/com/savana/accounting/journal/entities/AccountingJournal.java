@@ -1,7 +1,7 @@
 package com.savana.accounting.journal.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.savana.accounting.account.entities.Account;
+import com.savana.accounting.compte.entities.Compte;
 import com.savana.accounting.generic.entity.audit.BaseEntity;
 import com.savana.accounting.journal.dto.request.AccountingJournalRequest;
 import jakarta.persistence.*;
@@ -30,7 +30,7 @@ public class AccountingJournal extends BaseEntity<AccountingJournal, AccountingJ
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "account_id")
-    private Account account;
+    private Compte compte;
 
     @Override
     public void update(AccountingJournal source) {
@@ -38,7 +38,7 @@ public class AccountingJournal extends BaseEntity<AccountingJournal, AccountingJ
         this.amount = source.getAmount();
         this.balanceBefore = source.getBalanceBefore();
         this.balanceAfter = source.getBalanceAfter();
-        this.account = source.getAccount();
+        this.compte = source.getCompte();
     }
 
     @Override

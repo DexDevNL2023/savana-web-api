@@ -1,10 +1,9 @@
-package com.savana.accounting.account.entities;
+package com.savana.accounting.compte.entities;
 
-import com.savana.accounting.account.dto.request.AccountRequest;
+import com.savana.accounting.compte.dto.request.CompteRequest;
 import com.savana.accounting.generic.entity.audit.BaseEntity;
 import com.savana.accounting.journal.entities.AccountingJournal;
 import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
@@ -19,7 +18,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Document(collection = "accounts")
-public class Account extends BaseEntity<Account, AccountRequest> {
+public class Compte extends BaseEntity<Compte, CompteRequest> {
 
     private static final String ENTITY_NAME = "COMPTE CLIENT";
     private static final String MODULE_NAME = "ACCOUNT_MODULE";
@@ -32,14 +31,14 @@ public class Account extends BaseEntity<Account, AccountRequest> {
     @Column(nullable = false)
     private String currency;
 
-    @OneToMany(mappedBy = "account", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "compte", fetch = FetchType.EAGER)
     private List<AccountingJournal> journaux = new ArrayList<>();
 
     @Column(nullable = false, unique = true)
     private Long userId;
 
     @Override
-    public void update(Account source) {
+    public void update(Compte source) {
         this.accountNumber = source.getAccountNumber();
         this.balance = source.getBalance();
         this.currency = source.getCurrency();
@@ -48,7 +47,7 @@ public class Account extends BaseEntity<Account, AccountRequest> {
     }
 
     @Override
-    public boolean equalsToDto(AccountRequest source) {
+    public boolean equalsToDto(CompteRequest source) {
         if (source == null) {
             return false;
         }

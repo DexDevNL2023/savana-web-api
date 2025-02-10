@@ -54,11 +54,11 @@ public class AccountServiceImpl extends ServiceGenericImpl<AccountRequest, Accou
         }
 
         log.debug("1");
-        //Verifying whether account already exists
+        //Verifying whether compte already exists
         if (repository.existsByEmail(dto.getEmail()))
             throw new RessourceNotFoundException("Un compte existe déjà avec cette e-mail " + dto.getEmail());
         log.debug("2");
-        // Create new account's account
+        // Create new compte's compte
         // Mapper Dto
         Account newAccount = mapper.toEntity(dto);
         log.debug("3");
@@ -85,7 +85,7 @@ public class AccountServiceImpl extends ServiceGenericImpl<AccountRequest, Accou
     @LogExecution
     @Override
     public JwtAuthenticationResponse login(LoginRequest dto) {
-        //Verifying whether account already exists
+        //Verifying whether compte already exists
         if (!repository.existsByEmail(dto.getEmail()))
             throw new RessourceNotFoundException("Aucun compte n'existe avec le nom d'utilisateur : " + dto.getEmail());
         Account loginAccount = repository.findByEmail(dto.getEmail())
@@ -105,7 +105,7 @@ public class AccountServiceImpl extends ServiceGenericImpl<AccountRequest, Accou
                 loginAccount.getUsername(), loginAccount.getPassword(), loginAccount.getAuthorities());
         // Manually set the authentication in the SecurityContext
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        // Update account's account
+        // Update compte's compte
         repository.save(loginAccount);
         // Mapper Dto avec l'attribut accesToken correctement rempli
         return new JwtAuthenticationResponse(jwt);
@@ -115,9 +115,9 @@ public class AccountServiceImpl extends ServiceGenericImpl<AccountRequest, Accou
     @LogExecution
     @Override
     public Boolean logout() {
-        //Verifying whether account already exists
+        //Verifying whether compte already exists
         Account logoutAccount = loadCurrentUser();
-        // Update account's account
+        // Update compte's compte
         logoutAccount.setAccesToken("");
         repository.save(logoutAccount);
         SecurityContextHolder.clearContext();
@@ -132,11 +132,11 @@ public class AccountServiceImpl extends ServiceGenericImpl<AccountRequest, Accou
             throw new RessourceNotFoundException("L'email " + (dto.getEmail() == null ? "null" : dto.getEmail()) + " est invalide.");
         }
         log.debug("1");
-        //Verifying whether account already exists
+        //Verifying whether compte already exists
         if (repository.existsByEmail(dto.getEmail()))
             throw new RessourceNotFoundException("Un compte existe déjà avec cette e-mail " + dto.getEmail());
         log.debug("2");
-        // Create new account's account
+        // Create new compte's compte
         // Mapper Dto
         Account newAccount = mapper.toEntity(dto);
         log.debug("4");
@@ -153,17 +153,17 @@ public class AccountServiceImpl extends ServiceGenericImpl<AccountRequest, Accou
     @LogExecution
     @Override
     public AccountResponse update(AccountRequest dto, Long id) {
-        log.debug("updating account : {}", dto);
-        //Verifying whether account already exists
+        log.debug("updating compte : {}", dto);
+        //Verifying whether compte already exists
         Account updatedAccount = getById(id);
-        log.debug("getById account : {}", updatedAccount);
+        log.debug("getById compte : {}", updatedAccount);
         // Mapper Dto
         if (updatedAccount.equalsToDto(dto))
             throw new RessourceNotFoundException("L'utilisateur avec les données suivante : " + dto.toString() + " existe déjà");
-        log.debug("equalsToDto account : okay");
+        log.debug("equalsToDto compte : okay");
         updatedAccount.update(mapper.toEntity(dto));
-        log.debug("update account : okay");
-        // Update account's
+        log.debug("update compte : okay");
+        // Update compte's
         updatedAccount = repository.save(updatedAccount);
         log.debug("updatedAccount : {}", updatedAccount);
         // Mapper Dto
@@ -176,11 +176,11 @@ public class AccountServiceImpl extends ServiceGenericImpl<AccountRequest, Accou
     @LogExecution
     @Override
     public AccountResponse changePassword(ChangePasswordRequest dto) {
-        //Verifying whether account already exists
+        //Verifying whether compte already exists
         Account updatedAccount = loadCurrentUser();
         if (!bCryptPasswordEncoder.matches(dto.getCurrentPassword(), updatedAccount.getPassword()))
             throw new RessourceNotFoundException("Votre mot de passe actuel est différent de celui que vous avez renseigner!");
-        // Update account's account with new password
+        // Update compte's compte with new password
         updatedAccount.setPassword(bCryptPasswordEncoder.encode(dto.getNewPassword()));
         updatedAccount = repository.save(updatedAccount);
         // Mapper Dto
@@ -204,7 +204,7 @@ public class AccountServiceImpl extends ServiceGenericImpl<AccountRequest, Accou
     @LogExecution
     @Override
     public AccountResponse getCurrentUser() {
-        //Verifying whether account already exists
+        //Verifying whether compte already exists
         Account currentAccount = loadCurrentUser();
         // Mapper Dto
         return getOne(currentAccount);
@@ -255,7 +255,7 @@ public class AccountServiceImpl extends ServiceGenericImpl<AccountRequest, Accou
             throw new RessourceNotFoundException("L'email " + (newAccount.getEmail() == null ? "null" : newAccount.getEmail()) + " est invalide.");
         }
 
-        //Verifying whether account already exists
+        //Verifying whether compte already exists
         if (repository.existsByEmail(newAccount.getEmail()))
             throw new RessourceNotFoundException("Un compte existe déjà avec cette e-mail " + newAccount.getEmail());
 

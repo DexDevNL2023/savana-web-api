@@ -1,11 +1,11 @@
-package com.savana.accounting.account.controllers.impl;
+package com.savana.accounting.compte.controllers.impl;
 
 import com.savana.accounting.generic.controller.impl.ControllerGenericImpl;
-import com.savana.accounting.account.controllers.AccountController;
-import com.savana.accounting.account.dto.reponse.AccountResponse;
-import com.savana.accounting.account.dto.request.AccountRequest;
-import com.savana.accounting.account.entities.Account;
-import com.savana.accounting.account.services.AccountService;
+import com.savana.accounting.compte.controllers.CompteController;
+import com.savana.accounting.compte.dto.reponse.CompteResponse;
+import com.savana.accounting.compte.dto.request.CompteRequest;
+import com.savana.accounting.compte.entities.Compte;
+import com.savana.accounting.compte.services.CompteService;
 import com.savana.accounting.generic.dto.reponse.RessourceResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -18,42 +18,42 @@ import org.springframework.web.bind.annotation.*;
 @ResponseBody
 @RestController
 @CrossOrigin("*")
-@RequestMapping("/api/comptes")
+@RequestMapping("/api/accounting/comptes")
 @Tag(name = "Comptes", description = "API de gestion des comptes")
-public class AccountControllerimpl extends ControllerGenericImpl<AccountRequest, AccountResponse, Account> implements AccountController {
+public class CompteControllerimpl extends ControllerGenericImpl<CompteRequest, CompteResponse, Compte> implements CompteController {
 
 	private static final String MODULE_NAME = "ACCOUNT_MODULE";
 
-	private final AccountService service;
+	private final CompteService service;
 
-    protected AccountControllerimpl(AccountService service) {
+    protected CompteControllerimpl(CompteService service) {
         super(service);
 		this.service = service;
     }
 
     @Override
-    protected Account newInstance() {
-        return new Account();
+    protected Compte newInstance() {
+        return new Compte();
     }
 
     @GetMapping(value = "/user/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @SecurityRequirement(name = "Authorization")
-    public ResponseEntity<RessourceResponse<AccountResponse>> getAccountByUserId(@PathVariable Long userId) {
-        AccountResponse response = service.findByUserId(userId);
+    public ResponseEntity<RessourceResponse<CompteResponse>> getCompteByUserId(@PathVariable Long userId) {
+        CompteResponse response = service.findByUserId(userId);
         return ResponseEntity.ok(new RessourceResponse<>("Compte récupéré avec succès!", response));
     }
 
     @PutMapping(value = "/credit", produces = MediaType.APPLICATION_JSON_VALUE)
     @SecurityRequirement(name = "Authorization")
-    public ResponseEntity<RessourceResponse<String>> creditAccount(@RequestParam String accountId, @RequestParam Double amount) {
-        service.creditAccount(accountId, amount);
+    public ResponseEntity<RessourceResponse<String>> creditCompte(@RequestParam String accountId, @RequestParam Double amount) {
+        service.creditCompte(accountId, amount);
         return ResponseEntity.ok(new RessourceResponse<>("Compte crédité avec succès!", "OK"));
     }
 
     @PutMapping(value = "/debit", produces = MediaType.APPLICATION_JSON_VALUE)
     @SecurityRequirement(name = "Authorization")
-    public ResponseEntity<RessourceResponse<String>> debitAccount(@RequestParam String accountId, @RequestParam Double amount) {
-        service.debitAccount(accountId, amount);
+    public ResponseEntity<RessourceResponse<String>> debitCompte(@RequestParam String accountId, @RequestParam Double amount) {
+        service.debitCompte(accountId, amount);
         return ResponseEntity.ok(new RessourceResponse<>("Compte débité avec succès!", "OK"));
     }
 }

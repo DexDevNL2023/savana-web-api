@@ -12,6 +12,6 @@ import java.util.List;
 @Repository
 public interface AccountingJournalRepository extends GenericRepository<AccountingJournalRequest, AccountingJournal> {
 
-    @Query("SELECT j FROM AccountingJournal j WHERE j.account.id = :accountId")
+    @Query("SELECT j FROM AccountingJournal j WHERE j.compte.id = :accountId")
     List<AccountingJournal> findByAccountId(@Param("accountId") Long accountId);
 }

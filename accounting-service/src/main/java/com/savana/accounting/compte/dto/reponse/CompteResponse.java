@@ -1,4 +1,4 @@
-package com.savana.accounting.account.dto.reponse;
+package com.savana.accounting.compte.dto.reponse;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.savana.accounting.generic.dto.reponse.BaseResponse;
@@ -13,7 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class AccountResponse extends BaseResponse {
+public class CompteResponse extends BaseResponse {
     private String accountNumber;
     private Double balance;
     private String currency;

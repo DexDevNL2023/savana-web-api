@@ -38,7 +38,7 @@ public class AccountingJournalControllerimpl extends ControllerGenericImpl<Accou
         return new AccountingJournal();
     }
 
-    @GetMapping(value = "/account/{accountId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/compte/{accountId}", produces = MediaType.APPLICATION_JSON_VALUE)
     @SecurityRequirement(name = "Authorization")
     public ResponseEntity<RessourceResponse<List<AccountingJournalResponse>>> getJournalsByAccountId(@PathVariable Long accountId) {
         List<AccountingJournalResponse> journalResponses = service.findByAccountId(accountId);
