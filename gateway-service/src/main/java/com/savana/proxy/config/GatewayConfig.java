@@ -1,6 +1,6 @@
 package com.savana.proxy.config;
 
-import com.savana.proxy.security.JwtFilter;
+import com.savana.proxy.filter.JwtAuthenticationFilter;
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
@@ -8,34 +8,42 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class GatewayConfig {
+    private final JwtAuthenticationFilter filter;
 
-    private final JwtFilter filter;
-
-    public GatewayConfig(JwtFilter filter) {
+    public GatewayConfig(JwtAuthenticationFilter filter) {
         this.filter = filter;
     }
 
     @Bean
     public RouteLocator routes(RouteLocatorBuilder builder) {
         return builder.routes()
-                .route("account-service-users", r -> r.path("/api/profile/users/**")
-                        .filters(f -> f.filter(this.filter))
-                        .uri("lb://AUTH-SERVICE"))
-                .route("accounting-service-journal", r -> r.path("/api/accounting/journal/**")
-                        .filters(f -> f.filter(this.filter))
+                .route("accounting-service", r -> r.path("/api/accounting/**")
+                        .filters(f -> f.filter(filter))
                         .uri("lb://ACCOUNTING-SERVICE"))
-                .route("accounting-service-comptes", r -> r.path("/api/accounting/comptes/**")
-                        .filters(f -> f.filter(this.filter))
-                        .uri("lb://ACCOUNTING-SERVICE"))
-                .route("account-service-auth", r -> r.path("/api/profile/auth/**")
+
+                .route("user-service", r -> r.path("/api/profile/users/**")
+                        .filters(f -> f.filter(filter))
                         .uri("lb://AUTH-SERVICE"))
-                // Routes publiques pour Swagger
-                .route("swagger-auth", r -> r.path("/api/profile/swagger-ui/**")
+
+                .route("auth-service", r -> r.path("/api/profile/auth/**")
                         .uri("lb://AUTH-SERVICE"))
-                .route("swagger-accounting", r -> r.path("/api/accounting/swagger-ui/**")
+
+                .route("auth-api-docs", r -> r.path("/v3/api-docs/profile")
+                        .filters(f -> f.rewritePath("/v3/api-docs/profile", "/v3/api-docs"))
+                        .uri("lb://AUTH-SERVICE"))
+
+                .route("auth-swagger-ui", r -> r.path("/swagger-ui/profile")
+                        .filters(f -> f.rewritePath("/swagger-ui/profile", "/swagger-ui/index.html#/"))
+                        .uri("lb://AUTH-SERVICE"))
+
+                .route("accounting-api-docs", r -> r.path("/v3/api-docs/accounting")
+                        .filters(f -> f.rewritePath("/v3/api-docs/accounting", "/v3/api-docs"))
                         .uri("lb://ACCOUNTING-SERVICE"))
-                .route("swagger-ui", r -> r.path("/swagger-ui/**")
-                        .uri("lb://GATEWAY-SERVICE"))
+
+                .route("accounting-swagger-ui", r -> r.path("/swagger-ui/accounting")
+                        .filters(f -> f.rewritePath("/swagger-ui/accounting", "/swagger-ui/index.html#/"))
+                        .uri("lb://ACCOUNTING-SERVICE"))
+
                 .build();
     }
 }

@@ -1,5 +1,7 @@
 package com.savana.auth.generic.config;
 
+import com.savana.auth.authentification.entities.Account;
+import com.savana.auth.authentification.services.AccountService;
 import com.savana.auth.generic.logging.LogExecution;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -12,7 +14,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class SetupDataLoader implements ApplicationListener<ContextRefreshedEvent> {
 
     private boolean alreadySetup = false;
-    private final PasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder(10);
+    private final AccountService accountService;
+
+    public SetupDataLoader(AccountService accountService) {
+        this.accountService = accountService;
+    }
 
     @Transactional
     @LogExecution
@@ -23,5 +29,13 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
         }
 
         alreadySetup = true;
+        //addDefaultUsers();
+    }
+
+    private void addDefaultUsers() {
+        Account account = new Account();
+        account.setName("Dexter");
+        account.setEmail("dexternlang@gmail.com");
+        accountService.saveDefault(account);
     }
 }

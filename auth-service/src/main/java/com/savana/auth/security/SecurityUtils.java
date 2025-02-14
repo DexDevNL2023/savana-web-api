@@ -1,4 +1,5 @@
-package com.savana.auth.authentification.security;
+
+package com.savana.auth.security;
 
 import com.savana.auth.generic.utils.AppConstants;
 import org.springframework.security.core.Authentication;
@@ -7,7 +8,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.oauth2.jwt.Jwt;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -38,8 +38,6 @@ public final class SecurityUtils {
             return null;
         } else if (authentication.getPrincipal() instanceof UserDetails springSecurityUser) {
             return springSecurityUser.getUsername();
-        } else if (authentication.getPrincipal() instanceof Jwt jwt) {
-            return jwt.getSubject();
         } else if (authentication.getPrincipal() instanceof String s) {
             return s;
         }

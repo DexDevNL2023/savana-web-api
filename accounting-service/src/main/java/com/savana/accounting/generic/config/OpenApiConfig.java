@@ -2,27 +2,37 @@ package com.savana.accounting.generic.config;
 
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.security.SecurityScheme;
+import io.swagger.v3.oas.models.servers.Server;
+import java.util.List;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class OpenApiConfig {
+class OpenApiConfig {
+
+    @Value("${swagger.api-gateway-url}")
+    String apiGatewayUrl;
+
+    final String securitySchemeName = "bearerAuth";
+
     @Bean
-    public OpenAPI openAPI() {
-        final String securitySchemeName = "Authorization";
+    OpenAPI openApi() {
         return new OpenAPI()
-                .addSecurityItem(new SecurityRequirement().addList(securitySchemeName))
+                .info(new Info()
+                        .title("Accounting Service APIs")
+                        .description("Swagger Accounting Service APIs")
+                        .version("v1.0.0"))
+                .servers(List.of(new Server().url(apiGatewayUrl)))
                 .components(
                         new Components()
-                                .addSecuritySchemes(securitySchemeName,
+                                .addSecuritySchemes(
+                                        securitySchemeName,
                                         new SecurityScheme()
-                                                .name(securitySchemeName)
                                                 .type(SecurityScheme.Type.HTTP)
                                                 .scheme("bearer")
-                                                .bearerFormat("JWT")
-                                )
-                );
+                                                .bearerFormat("JWT")));
     }
 }

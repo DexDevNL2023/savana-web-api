@@ -6,13 +6,12 @@ import com.savana.auth.authentification.dto.request.*;
 import com.savana.auth.authentification.entities.*;
 import com.savana.auth.authentification.mapper.AccountMapper;
 import com.savana.auth.authentification.repositories.AccountRepository;
-import com.savana.auth.authentification.security.JwtUtils;
 import com.savana.auth.authentification.services.AccountService;
 import com.savana.auth.generic.exceptions.RessourceNotFoundException;
 import com.savana.auth.generic.logging.LogExecution;
 import com.savana.auth.generic.service.impl.ServiceGenericImpl;
 import com.savana.auth.generic.utils.GenericUtils;
-import jakarta.transaction.Transactional;
+import com.savana.auth.security.jwt.JwtUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -25,6 +24,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Slf4j
@@ -259,6 +259,7 @@ public class AccountServiceImpl extends ServiceGenericImpl<AccountRequest, Accou
         if (repository.existsByEmail(newAccount.getEmail()))
             throw new RessourceNotFoundException("Un compte existe déjà avec cette e-mail " + newAccount.getEmail());
 
+        newAccount.setPassword(bCryptPasswordEncoder.encode(""));
         newAccount = repository.save(newAccount);
         log.debug("Account {}", newAccount);
         return newAccount;

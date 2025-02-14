@@ -7,6 +7,7 @@ import com.savana.auth.authentification.dto.request.ResetPasswordRequest;
 import com.savana.auth.authentification.dto.request.SignupRequest;
 import com.savana.auth.authentification.services.AccountService;
 import com.savana.auth.generic.dto.reponse.RessourceResponse;
+import com.savana.auth.security.JwtKeyService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -16,6 +17,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
+import java.util.Map;
+
 @RefreshScope
 @ResponseBody
 @RestController
@@ -24,9 +28,12 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Authentifications", description = "API de gestion des authentifications")
 public class AuthentificationController {
 
+
+    private final JwtKeyService jwtKeyService;
     private final AccountService accountService;
 
-    public AuthentificationController(AccountService accountService) {
+    public AuthentificationController(JwtKeyService jwtKeyService, AccountService accountService) {
+        this.jwtKeyService = jwtKeyService;
         this.accountService = accountService;
     }
 
@@ -49,5 +56,11 @@ public class AuthentificationController {
     @PostMapping(value = "/password/reset", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<RessourceResponse<Boolean>> resetPassword(@Valid @RequestBody ResetPasswordRequest resetPasswordRequest) {
         return new ResponseEntity<>(new RessourceResponse<Boolean>("Réinitialiser le mot de passe avec succès!", accountService.resetPassword(resetPasswordRequest)), HttpStatus.OK);
+    }
+
+    @GetMapping("/jwks")
+    public ResponseEntity<Map<String, String>> getPublicKey() {
+        return ResponseEntity.ok(jwtKeyService.getJwkSet());
+        //return ResponseEntity.ok(Collections.singletonMap("publicKey", jwtKeyService.getPublicKeyBase64()));
     }
 }

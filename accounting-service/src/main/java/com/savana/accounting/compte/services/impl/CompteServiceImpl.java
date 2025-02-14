@@ -10,9 +10,9 @@ import com.savana.accounting.compte.repositories.CompteRepository;
 import com.savana.accounting.compte.services.CompteService;
 import com.savana.accounting.journal.entities.AccountingJournal;
 import com.savana.accounting.journal.repositories.AccountingJournalRepository;
-import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service

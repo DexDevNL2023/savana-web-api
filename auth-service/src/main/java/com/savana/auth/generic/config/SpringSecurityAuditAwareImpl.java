@@ -1,6 +1,6 @@
 package com.savana.auth.generic.config;
 
-import com.savana.auth.authentification.security.SecurityUtils;
+import com.savana.auth.security.SecurityUtils;
 import com.savana.auth.generic.utils.AppConstants;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.stereotype.Component;

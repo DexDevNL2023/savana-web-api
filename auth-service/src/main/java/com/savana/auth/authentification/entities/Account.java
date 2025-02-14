@@ -2,7 +2,7 @@ package com.savana.auth.authentification.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.savana.auth.authentification.dto.request.AccountRequest;
-import com.savana.auth.authentification.security.SecurityUtils;
+import com.savana.auth.security.SecurityUtils;
 import com.savana.auth.generic.entity.audit.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
