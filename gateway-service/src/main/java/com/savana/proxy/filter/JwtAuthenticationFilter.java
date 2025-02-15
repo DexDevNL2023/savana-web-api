@@ -52,7 +52,7 @@ public class JwtAuthenticationFilter implements GatewayFilter {
     }
 
     private static Predicate<ServerHttpRequest> getIsApiSecured() {
-        final List<String> apiEndpoints = List.of("/eureka", "/api/profile/auth/**",
+        final List<String> apiEndpoints = List.of("/eureka", "/api/profile/auth/**", "/openapi/**",
                 "/webjars/**", "/swagger-resources/**", "/v3/api-docs/**", "/v3/api-docs.yaml", "/swagger-ui/**",
                 "/swagger-ui.html", "/static/**", "/error/**", "/configuration/ui", "/configuration/security",
                 "/actuator/**", "/api/files/**", "/data/uploads/**", "/favicon.ico");

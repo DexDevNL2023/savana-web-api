@@ -28,6 +28,10 @@ public class GatewayConfig {
                 .route("auth-service", r -> r.path("/api/profile/auth/**")
                         .uri("lb://AUTH-SERVICE"))
 
+                .route("openapi", r -> r.path("/openapi/**")
+                        .filters(f -> f.rewritePath("/openapi/(?<segment>.*)", "/v3/api-docs"))
+                        .uri("lb://GATEWAY-SERVICE"))
+
                 .route("auth-api-docs", r -> r.path("/v3/api-docs/profile")
                         .filters(f -> f.rewritePath("/v3/api-docs/profile", "/v3/api-docs"))
                         .uri("lb://AUTH-SERVICE"))
